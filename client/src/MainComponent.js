@@ -8,7 +8,7 @@ const MainComponent = () => {
 
     const getAllNumbers = useCallback(async () => {
         //usar nginx para redireccionar correctamente
-        const data = await axios.get('/api/values/values/all');
+        const data = await axios.get('/api/values/all');
         setValues(data.data.rows.map(row => row.number));
     }, [])
 

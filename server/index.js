@@ -23,7 +23,7 @@ const pgClient = new Pool({
 
 pgClient.on("connect", client => {
     client
-        .query("CREATE TABLE IF NOT EXIST values (number INT) ")
+        .query("CREATE TABLE IF NOT EXISTS values (number INT) ")
         .catch(error => console.log("error al conectar con postgres ", error));
 })
 
@@ -37,10 +37,10 @@ application.get("/values/all", async (req, res) => {
     res.send(values);
 });
 
-application.post("values", async (req, res) => {
+application.post("/values", async (req, res) => {
     if (!req.body.value) res.send({ working: false });
 
-    pgClient.query("INSERT INTO values(number) values ($1)", [req.body.value]);
+    pgClient.query("INSERT INTO values(number) values ($1)", [req.body.value]).catch(error=>console.log("error en insertar", error));
 
     res.send({ working: true });
 });
